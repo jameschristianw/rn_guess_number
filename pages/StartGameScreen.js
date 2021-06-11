@@ -1,33 +1,58 @@
-import React from "react";
-import { View, StyleSheet, Text, TextInput, Button } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TextInput,
+  Button,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
+
 import Card from "../components/Card";
 import Input from "../components/Input";
 import colors from "../constants/colors";
 
 const StartGameScreen = () => {
+  const [enteredValue, setEnteredValue] = useState("");
+
+  const numberInputHandler = (inputText) => {
+    // Validating input
+
+    setEnteredValue(inputText.replace(/[^0-9]/g, ""));
+  };
+
   return (
-    <View style={styles.screen}>
-      <Text style={styles.title}>Start a New Game!</Text>
-      <Card style={styles.inputContainer}>
-        <Text>Select a Number</Text>
-        <Input
-          style={styles.input}
-          blurOnSubmit
-          autoCapitalize="none"
-          autoCorrect={false}
-          keyboardType="number-pad"
-          maxLength={2}
-        />
-        <View style={styles.buttonView}>
-          <View style={styles.button}>
-            <Button title="Reset" onPress={() => {}} color={colors.accent} />
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={styles.screen}>
+        <Text style={styles.title}>Start a New Game!</Text>
+        <Card style={styles.inputContainer}>
+          <Text>Select a Number</Text>
+          <Input
+            style={styles.input}
+            blurOnSubmit
+            autoCapitalize="none"
+            autoCorrect={false}
+            keyboardType="number-pad"
+            maxLength={2}
+            onChangeText={numberInputHandler}
+            value={enteredValue}
+          />
+          <View style={styles.buttonView}>
+            <View style={styles.button}>
+              <Button title="Reset" onPress={() => {}} color={colors.accent} />
+            </View>
+            <View style={styles.button}>
+              <Button
+                title="Submit"
+                onPress={() => {}}
+                color={colors.primary}
+              />
+            </View>
           </View>
-          <View style={styles.button}>
-            <Button title="Submit" onPress={() => {}} color={colors.primary} />
-          </View>
-        </View>
-      </Card>
-    </View>
+        </Card>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
