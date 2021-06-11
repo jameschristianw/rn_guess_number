@@ -1,22 +1,24 @@
 import React from "react";
 import { View, StyleSheet, Text, TextInput, Button } from "react-native";
+import Card from "../components/Card";
+import colors from "../constants/colors";
 
 const StartGameScreen = () => {
   return (
     <View style={styles.screen}>
       <Text style={styles.title}>Start a New Game!</Text>
-      <View style={styles.card}>
+      <Card style={styles.inputContainer}>
         <Text>Select a Number</Text>
         <TextInput />
         <View style={styles.buttonView}>
           <View style={styles.button}>
-            <Button title="Reset" onPress={() => {}} />
+            <Button title="Reset" onPress={() => {}} color={colors.accent} />
           </View>
           <View style={styles.button}>
-            <Button title="Submit" onPress={() => {}} />
+            <Button title="Submit" onPress={() => {}} color={colors.primary} />
           </View>
         </View>
-      </View>
+      </Card>
     </View>
   );
 };
@@ -27,23 +29,11 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: "center",
   },
-  card: {
+  inputContainer: {
     width: 300,
     maxWidth: "80%",
-    backgroundColor: 'white',
+    backgroundColor: "white",
     alignItems: "center",
-    padding: 10,
-    // shadow only works on iOS
-    shadowColor: "black",
-    shadowOpacity: 0.26,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowRadius: 6,
-    // elevation only works on android
-    elevation: 5,
-    borderRadius: 10,
   },
   buttonView: {
     flexDirection: "row",
