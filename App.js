@@ -2,20 +2,41 @@ import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Header from "./components/Header";
+import GameOverScreen from "./pages/GameOverScreen";
 import GameScreen from "./pages/GameScreen";
 import StartGameScreen from "./pages/StartGameScreen";
 
 export default function App() {
   const [userNumber, setUserNumber] = useState();
+  const [guessRounds, setGuessRoundss] = useState(0);
+
+  const configureNewGame = () => {
+    setGuessRoundss(0);
+    setUserNumber(null);
+  };
 
   const startGameHandler = (selectedNumber) => {
     setUserNumber(selectedNumber);
   };
 
+  const gameOverHandler = (numOfRounds) => {
+    setGuessRoundss(numOfRounds);
+  };
+
   let content = <StartGameScreen onStartGame={startGameHandler} />;
 
-  if (userNumber) {
-    content = <GameScreen userChoice={userNumber} />;
+  if (userNumber && guessRounds <= 0) {
+    content = (
+      <GameScreen userChoice={userNumber} onGameOver={gameOverHandler} />
+    );
+  } else if (guessRounds > 0) {
+    content = (
+      <GameOverScreen
+        roundNumber={guessRounds}
+        userNumber={userNumber}
+        onRestart={configureNewGame}
+      />
+    );
   }
 
   return (
