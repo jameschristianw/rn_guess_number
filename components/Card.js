@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
     // elevation only works on android
     elevation: 5,
     borderRadius: 10,
+    backgroundColor: "white",
   },
 });
 
