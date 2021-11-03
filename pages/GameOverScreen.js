@@ -1,5 +1,13 @@
 import React from "react";
-import { View, StyleSheet, Text, Button, Image } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  Button,
+  Image,
+  Dimensions,
+  ScrollView,
+} from "react-native";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import BodyText from "../components/BodyText";
 import TitleText from "../components/TitleText";
@@ -7,31 +15,33 @@ import MainButton from "../components/MainButton";
 
 const GameOverScreen = (props) => {
   return (
-    <View style={styles.screen}>
-      <TitleText>Game Over</TitleText>
-      <View style={styles.imageContainer}>
-        <Image
-          // source={require("../assets/success.png")}
-          source={{
-            uri: "https://cdn.pixabay.com/photo/2019/01/22/18/30/summit-3948706_960_720.jpg",
-          }}
-          style={styles.image}
-          resizeMode="cover"
-          fadeDuration={500}
-        />
-      </View>
-      <View style={styles.gameResult}>
-        <BodyText style={styles.resultText}>
-          Your phone needed{" "}
-          <Text style={styles.highlight}>{props.roundNumber}</Text> rounds to
-          guess the number{" "}
-          <Text style={styles.highlight}>{props.userNumber}</Text>
-        </BodyText>
-      </View>
-      {/* <BodyText>Number of rounds: {props.roundNumber}</BodyText>
+    <ScrollView>
+      <View style={styles.screen}>
+        <TitleText>Game Over</TitleText>
+        <View style={styles.imageContainer}>
+          <Image
+            // source={require("../assets/success.png")}
+            source={{
+              uri: "https://cdn.pixabay.com/photo/2019/01/22/18/30/summit-3948706_960_720.jpg",
+            }}
+            style={styles.image}
+            resizeMode="cover"
+            fadeDuration={500}
+          />
+        </View>
+        <View style={styles.gameResult}>
+          <BodyText style={styles.resultText}>
+            Your phone needed{" "}
+            <Text style={styles.highlight}>{props.roundNumber}</Text> rounds to
+            guess the number{" "}
+            <Text style={styles.highlight}>{props.userNumber}</Text>
+          </BodyText>
+        </View>
+        {/* <BodyText>Number of rounds: {props.roundNumber}</BodyText>
       <BodyText>The number was: {props.userNumber}</BodyText> */}
-      <MainButton onPress={props.onRestart}>New Game</MainButton>
-    </View>
+        <MainButton onPress={props.onRestart}>New Game</MainButton>
+      </View>
+    </ScrollView>
   );
 };
 
@@ -43,13 +53,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   imageContainer: {
-    borderRadius: 150,
+    borderRadius: (Dimensions.get("window").width * 0.75) / 2,
     borderWidth: 3,
     borderColor: "black",
-    height: 300,
-    width: 300,
+    height: Dimensions.get("window").width * 0.75,
+    width: Dimensions.get("window").width * 0.75,
     overflow: "hidden",
-    marginVertical: 30,
+    marginVertical: Dimensions.get("window").height * 0.05,
   },
   image: {
     width: "100%",
@@ -60,11 +70,12 @@ const styles = StyleSheet.create({
     fontFamily: "open-sans-bold",
   },
   gameResult: {
-    marginVertical: 20,
+    marginVertical: Dimensions.get("window").height * 0.02,
     // width: "80%",
   },
   resultText: {
     textAlign: "center",
+    fontSize: Dimensions.get("window").height < 400 ? 14 : 16,
   },
 });
 

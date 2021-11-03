@@ -6,6 +6,7 @@ import {
   Alert,
   ScrollView,
   FlatList,
+  Dimensions,
 } from "react-native";
 import Card from "../components/Card";
 import NumberContainer from "../components/NumberContainer";
@@ -16,11 +17,17 @@ import MainButton from "../components/MainButton";
 import BodyText from "../components/BodyText";
 
 const generateRandomBetween = (min, max, exclude) => {
+  console.log("old min: ", min);
+  console.log("old max: ", max);
   min = Math.ceil(min);
   max = Math.floor(max);
-  const randomNumber = Math.floor(Math.random() * (max - min) + min);
+  const randomNumber = Math.floor(Math.random() * (max - min)) + min;
+  console.log("new min: ", min);
+  console.log("new max: ", max);
+  console.log("rand no: %d\n", randomNumber);
 
   if (randomNumber === exclude) {
+    console.log("exlude\n");
     return generateRandomBetween(min, max, exclude);
   } else {
     return randomNumber;
@@ -47,7 +54,7 @@ const renderFlatListItem = (listLength, itemData) => {
 
 const GameScreen = (props) => {
   const initialGuess = generateRandomBetween(1, 100, props.userChoice);
-  const [currentGuess, setCurrentGuess] = useState(initialGuess.toString());
+  const [currentGuess, setCurrentGuess] = useState(initialGuess);
   const [pastGuesses, setPastGuesses] = useState([initialGuess]);
 
   const currentLow = useRef(1);
@@ -78,6 +85,9 @@ const GameScreen = (props) => {
       currentLow.current = currentGuess + 1;
     }
 
+    console.log("currentLow:  %d", currentLow.current);
+    console.log("currentHigh:  %d", currentHigh.current);
+
     const nextNumber = generateRandomBetween(
       currentLow.current,
       currentHigh.current,
@@ -89,6 +99,12 @@ const GameScreen = (props) => {
       ...curPastGuesses,
     ]);
   };
+
+  let listContainerStyle = styles.listContainer;
+
+  if (Dimensions.get("window").width < 350) {
+    listContainerStyle = styles.listContainerBig;
+  }
 
   return (
     <View style={styles.screen}>
@@ -116,7 +132,7 @@ const GameScreen = (props) => {
           </MainButton>
         </View>
       </Card>
-      <View style={styles.listContainer}>
+      <View style={listContainerStyle}>
         {/* <ScrollView contentContainerStyle={styles.list}>
           {pastGuesses.map((guess, index) =>
             renderListItem(guess, pastGuesses.length - index)
@@ -142,7 +158,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
-    marginTop: 20,
+    marginTop: Dimensions.get("window").height > 600 ? 20 : 5,
     maxWidth: "80%",
     width: 400,
     padding: 20,
@@ -154,6 +170,10 @@ const styles = StyleSheet.create({
   listContainer: {
     width: "70%",
     flex: 1,
+  },
+  listContainerBig: {
+    flex: 1,
+    width: "80%",
   },
   list: {
     flexGrow: 1,
